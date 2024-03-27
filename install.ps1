@@ -17,8 +17,8 @@ $old_path = [Environment]::GetEnvironmentVariable('path', 'user');
 # Checks if bren is already in path to present an uninstall dialog according
 if ($old_path.Contains($bren)) {
   # Uninstall dialog
-  Write-Warning "Bren is INSTALLED in $bren"
-  Write-Warning "Do you want to UNINSTALL bren?"
+  Write-Host "Bren is INSTALLED in $bren" -ForegroundColor Red
+  Write-Host "Do you want to UNINSTALL bren?" -ForegroundColor Red
   $uninstall = Read-Host "Choice (Y/YES or N/NO)"
   if ($uninstall -eq 'Y' -or $confirm -eq 'YES') {
     Write-Host "[$((Get-Date).ToString("yyyy:MM:dd HH:MM"))]: Begin uninstall" > Out-File -FilePath ".\log.txt"
