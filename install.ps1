@@ -11,7 +11,7 @@ Write-Host "NOTE: a backup of the current PATH will be saved in 'C:\bren\user-pa
 Write-Host ""
 
 $ver = "v1.0"
-$bren = 'C:\bren\bren.ps1'
+$bren = 'C:\bren\bren.cmd'
 $old_path = [Environment]::GetEnvironmentVariable('path', 'user');
 
 # Checks if bren is already in path to present an uninstall dialog according
@@ -52,6 +52,7 @@ if ($install -eq 'Y' -or $confirm -eq 'YES') {
 
   # Adds bren to the user PATH variable
   Write-Host "Adding bren to user PATH variable..." -ForegroundColor Cyan
+  "powershell.exe -NoProfile -File C:\bren\bren.ps1" > $bren
   [Environment]::SetEnvironmentVariable('path', $new_path,'User');
   Write-Host "Bren was added to the user PATH variable." -ForegroundColor Green  > Out-File -FilePath ".\log.txt"
 
