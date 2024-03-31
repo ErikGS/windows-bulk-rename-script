@@ -74,16 +74,18 @@ if ((GetUserPathVar).Contains($bren_cmd)) {
     Log "Begin uninstalling..." -i
 
     # Removes bren from the user PATH variable
-    [Environment]::SetEnvironmentVariable("path", (GetUserPathVar.Remove(';' + $bren_cmd)), "User");
+    [Environment]::SetEnvironmentVariable("path", (GetUserPathVar).Replace(";$bren_cmd", ""), "User");
     
     Remove-Item $bren
+    Remove-Item $bren_cmd
+    Remove-Item ($dir + $installer)
 
     Log "Bren was uninstalled." -s
 
     Break
   }
 
-  Log "Operation Aborted." -e
+  Log "Operation Aborted." -color Red
   Break
 }
 
@@ -120,7 +122,11 @@ if ((Read-Host "Choice (Y/YES or N/NO)") -eq 'Y' -or $confirm -eq "YES") {
 
   "powershell.exe -NoProfile -File $bren" > $bren_cmd
 
-  [Environment]::SetEnvironmentVariable('path', ((GetUserPathVar) + $bren_cmd), 'User');
+  if ((GetUserPathVar).EndsWith(';')) {
+    [Environment]::SetEnvironmentVariable('path', ((GetUserPathVar) + ("$bren_cmd")), 'User');
+  } else {
+    [Environment]::SetEnvironmentVariable('path', ((GetUserPathVar) + (";$bren_cmd")), 'User');
+  }
 
   Log "Bren was added to the user PATH variable." -s
 
@@ -134,9 +140,9 @@ if ((Read-Host "Choice (Y/YES or N/NO)") -eq 'Y' -or $confirm -eq "YES") {
   Copy-Item -Path $log -Destination ".\"
 
   Log "Installation Done." -s
-  Log " "
+  #Log " "
   Break
 }
 
-Log "Operation Aborted." -e
+Log "Operation Aborted." -color Red
 Break
