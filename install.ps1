@@ -37,7 +37,7 @@ if ($version){
 function Log {
   param(
     [string]$_string,
-    [string]$_format
+    [switch]$_format
   )
   switch ($_format) {
     info { Write-Host $_string -ForegroundColor Cyan > $log }
@@ -70,19 +70,19 @@ if ((GetUserPathVar).Contains($bren_cmd)) {
 
   if ((Read-Host "Choice (Y/YES or N/NO)") -eq 'Y' -or $confirm -eq "YES") {
 
-    Log("Begin uninstalling...", "info")
+    Log "Begin uninstalling..." -info
 
     # Removes bren from the user PATH variable
     [Environment]::SetEnvironmentVariable("path", (GetUserPathVar.Remove(';' + $bren_cmd)), "User");
     
     Remove-Item $bren
 
-    Log("Bren was uninstalled.", "success")
+    Log "Bren was uninstalled." -success
 
     Break
   }
 
-  Log("Operation Aborted.", "error")
+  Log "Operation Aborted." -error
   Break
 }
 
@@ -92,36 +92,36 @@ Write-Warning "May the installer procceed?"
 
 if ((Read-Host "Choice (Y/YES or N/NO)") -eq 'Y' -or $confirm -eq "YES") {
 
-  Log("Begin installation...", "warning")
+  Log "Begin installation..." -warning
 
   # Makes the directory and place a copy of bren
-  New-Item $dir
+  mkdir $dir -Force > $null
 
-  Log("Copying '$bren_sr'c to '$bren'...", "info")
+  Log "Copying '$bren_src' to '$bren'..." -info
 
   Copy-Item -Path $bren_src -Destination $bren
 
-  Log("'$bren_src' was copied to '$bren'.", "success")
+  Log "'$bren_src' was copied to '$bren'." -success
 
 
   # Saves a backup of the PATH variable before adding bren.
-  Log("Saving a backup of current user PATH variable here and in '$usr_path_var_bkp'...", "info")
+  Log "Saving a backup of current user PATH variable here and in '$usr_path_var_bkp'..." -info
 
   GetUserPathVar | Out-File -FilePath $usr_path_var_bkp 
 
   Copy-Item -Path $usr_path_var_bkp -Destination ".\"
 
-  Log("A backup of current user PATH variable was saved here and in '$usr_path_var_bkp'.", "success")
+  Log "A backup of current user PATH variable was saved here and in '$usr_path_var_bkp'." -success
 
 
   # Adds bren to the user PATH variable
-  Log("Adding bren to user PATH variable...", "info")
+  Log "Adding bren to user PATH variable..." -info
 
   "powershell.exe -NoProfile -File $bren" > $bren_cmd
 
   [Environment]::SetEnvironmentVariable('path', (GetUserPathVar + ';' + $bren_cmd), 'User');
 
-  Log("Bren was added to the user PATH variable.", "success")
+  Log "Bren was added to the user PATH variable." -success
 
 
   # Makes a copy the installer too, so there's a backup if needed, likely to uninstall
