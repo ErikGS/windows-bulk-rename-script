@@ -50,9 +50,9 @@ function Log {
   if ($e) { Write-Error $string >> $log }
   if ($color -is [System.ConsoleColor]) {
     Write-Host $string -ForegroundColor $color >> $LogCommandLifecycleEvent
+  } else {
+    write-Host $string >> $log
   }
-
-  write-Host $string >> $log 
 }
 
 # Utility for getting the User PATH variable
