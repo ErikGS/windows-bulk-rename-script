@@ -44,13 +44,12 @@ function Log {
     [switch]$e
   )
 
-  if ($i) { Write-Host $string -ForegroundColor Cyan >> $log } return
-  if ($s) { Write-Host $string -ForegroundColor Green >> $log } return
-  if ($w) { Write-Warning $string >> $log } return
-  if ($e) { Write-Error $string >> $log } return
+  if ($i) { Write-Host $string -ForegroundColor Cyan >> $log }
+  if ($s) { Write-Host $string -ForegroundColor Green >> $log }
+  if ($w) { Write-Warning $string >> $log }
+  if ($e) { Write-Error $string >> $log }
   if ($color -is [System.ConsoleColor]) {
     Write-Host $string -ForegroundColor $color >> $LogCommandLifecycleEvent
-    return
   }
 
   write-Host $string >> $log 
