@@ -44,14 +44,26 @@ function Log {
     [switch]$e
   )
 
-  if ($i) { Write-Host $string -ForegroundColor Cyan >> $log }
-  elseif ($s) { Write-Host $string -ForegroundColor Green >> $log }
-  elseif ($w) { Write-Warning $string >> $log }
-  elseif ($e) { Write-Error $string >> $log }
-  elseif ($color -is [System.ConsoleColor]) {
-    Write-Host $string -ForegroundColor $color >> $LogCommandLifecycleEvent
+  $string = ((Get-Date).ToString("yyyy/MM/dd-HH:mm:ss") + ": $string")
+
+  if ($i) { 
+    Write-Output $string | Out-File -FilePath $log -Append
+    Write-Host $string -ForegroundColor Cyan 
+  } elseif ($s) { 
+    Write-Output $string | Out-File -FilePath $log -Append
+    Write-Host $string -ForegroundColor Green
+  } elseif ($w) {
+    Write-Output $string | Out-File -FilePath $log -Append
+    Write-Warning $string
+  } elseif ($e) { 
+    Write-Output $string | Out-File -FilePath $log -Append
+    Write-Error $string
+  } elseif ($color -is [System.ConsoleColor]) {
+    Write-Output $string | Out-File -FilePath $log -Append
+    Write-Host $string -ForegroundColor $color
   } else {
-    write-Host $string >> $log
+    Write-Output $string | Out-File -FilePath $log -Append
+    write-Host $string
   }
 }
 
@@ -70,7 +82,7 @@ if ((GetUserPathVar).Contains($bren_cmd)) {
 
   if ((Read-Host "Choice (Y/YES or N/NO)") -eq 'Y' -or $confirm -eq "YES") {
 
-    Log " "
+    Write-Host " "
     Log "Begin uninstalling..." -i
 
     # Removes bren from the user PATH variable
@@ -81,11 +93,13 @@ if ((GetUserPathVar).Contains($bren_cmd)) {
     Remove-Item ($dir + $installer)
 
     Log "Bren was uninstalled." -s
-
+    Write-Host " "
     Break
   }
 
-  Log "Operation Aborted." -color Red
+  Write-Host " "
+  Log "Uninstall Operation Aborted." -color Red
+  Write-Host " "
   Break
 }
 
@@ -95,6 +109,7 @@ Write-Warning "May the installer procceed?"
 
 if ((Read-Host "Choice (Y/YES or N/NO)") -eq 'Y' -or $confirm -eq "YES") {
 
+  Write-Host " "
   Log "Begin installation..." -w
 
   # Makes the directory and place a copy of bren
@@ -133,16 +148,15 @@ if ((Read-Host "Choice (Y/YES or N/NO)") -eq 'Y' -or $confirm -eq "YES") {
 
   # Makes a copy the installer too, so there's a backup if needed, likely to uninstall
   Log " "
-  Log "Finishing..." -i
-  Log " "
+  Log "Installation Done." -s
+  Write-Host " "
 
   Copy-Item -Path $installer -Destination $dir
   Copy-Item -Path $log -Destination ".\"
-
-  Log "Installation Done." -s
-  #Log " "
   Break
 }
 
-Log "Operation Aborted." -color Red
+Write-Host " "
+Log "Install Operation Aborted." -color Red
+Write-Host " "
 Break
