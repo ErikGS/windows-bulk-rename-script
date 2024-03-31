@@ -45,10 +45,10 @@ function Log {
   )
 
   if ($i) { Write-Host $string -ForegroundColor Cyan >> $log }
-  if ($s) { Write-Host $string -ForegroundColor Green >> $log }
-  if ($w) { Write-Warning $string >> $log }
-  if ($e) { Write-Error $string >> $log }
-  if ($color -is [System.ConsoleColor]) {
+  elseif ($s) { Write-Host $string -ForegroundColor Green >> $log }
+  elseif ($w) { Write-Warning $string >> $log }
+  elseif ($e) { Write-Error $string >> $log }
+  elseif ($color -is [System.ConsoleColor]) {
     Write-Host $string -ForegroundColor $color >> $LogCommandLifecycleEvent
   } else {
     write-Host $string >> $log
