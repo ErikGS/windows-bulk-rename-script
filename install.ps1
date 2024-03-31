@@ -3,6 +3,7 @@ param(
 )
 
 # Presentation
+Write-Host ""
 Write-Host "----------------BRen-Installer----------------" -ForegroundColor Green
 Write-Host "       Bulk-Rename operation by Erik GS       " -ForegroundColor Yellow
 Write-Host "         [https://github.com/ErikGS]          " -ForegroundColor Cyan
@@ -52,7 +53,7 @@ function GetUserPathVar {
 }
 
 # Checks if bren is already in path to present an uninstall dialog according
-if (GetUserPathVar.Contains($bren_cmd)) {
+if ((GetUserPathVar).Contains($bren_cmd)) {
 
   # Uninstall dialog
   Write-Host "Bren is INSTALLED in $dir" -ForegroundColor Green
