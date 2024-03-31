@@ -46,10 +46,10 @@ function Log {
     error { Write-Error $_string > $log }
     Default { 
       if ($_format -is [System.ConsoleColor]) {
-        Write-Host _string -ForegroundColor $_format > $log  
+        Write-Host $_string -ForegroundColor $_format > $log  
       }
       else {
-        Write-Host _string > $log 
+        Write-Host $_string > $log 
       }
     }
   }
