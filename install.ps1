@@ -36,23 +36,24 @@ if ($version){
 # _format can also be a color (Black, White, Red, Blue, etc.) 
 function Log {
   param(
-    [string]$_string,
+    [string]$string,
+    [string]$color,
     [switch]$i,
     [switch]$s,
     [switch]$w,
     [switch]$e
   )
 
-  if ($i) { Write-Host $_string -ForegroundColor Cyan > $log } return
-  if ($s) { Write-Host $_string -ForegroundColor Green > $log } return
-  if ($w) { Write-Warning $_string > $log } return
-  if ($e) { Write-Error $_string > $log } return
-  if ($_format -is [System.ConsoleColor]) {
-    Write-Host $_string -ForegroundColor $_format > $LogCommandLifecycleEvent
+  if ($i) { Write-Host $string -ForegroundColor Cyan >> $log } return
+  if ($s) { Write-Host $string -ForegroundColor Green >> $log } return
+  if ($w) { Write-Warning $string >> $log } return
+  if ($e) { Write-Error $string >> $log } return
+  if ($color -is [System.ConsoleColor]) {
+    Write-Host $string -ForegroundColor $color >> $LogCommandLifecycleEvent
+    return
   }
-  else {
-    Write-Host $_string > $log 
-  }
+
+  write-Host $string >> $log 
 }
 
 # Utility for getting the User PATH variable
