@@ -2,19 +2,6 @@ param(
   [switch]$version
 )
 
-# Presentation
-Write-Host ""
-Write-Host "----------------BRen-Installer----------------" -ForegroundColor Green
-Write-Host "       Bulk-Rename operation by Erik GS       " -ForegroundColor Yellow
-Write-Host "         [https://github.com/ErikGS]          " -ForegroundColor Cyan
-Write-Host "--------------------v1.0----------------------" -ForegroundColor Green
-Write-Host ""
-Write-Host "To have a script file available as command in a console or terminal" -ForegroundColor Yellow
-Write-Host "its path has to be added to the user PATH variable. This installer" -ForegroundColor Yellow
-Write-Host "will place the script file in (C:\bren\) and then add it to PATH." -ForegroundColor Yellow
-Write-Host "NOTE: a backup of the current PATH will be saved in 'C:\bren\user-path-bkp.txt'."
-Write-Host ""
-
 $ver = "v1.0"
 $dir = "C:\bren\"
 $log = $dir + "log.txt"
@@ -22,6 +9,19 @@ $bren = $dir + "bren.ps1"
 $bren_cmd = $dir + "bren.cmd"
 $bren_src = ".\bren.ps1"
 $usr_path_var_bkp = $dir + ".\user-PATH-var_backup.txt"
+
+# Presentation
+Write-Host ""
+Write-Host "----------------BRen-Installer----------------" -ForegroundColor Green
+Write-Host "       Bulk-Rename operation by Erik GS       " -ForegroundColor Yellow
+Write-Host "         [https://github.com/ErikGS]          " -ForegroundColor Cyan
+Write-Host "--------------------v1.0----------------------" -ForegroundColor Green
+Write-Host ""
+Write-Host "To have a script file available as a command in a console or terminal" -ForegroundColor Yellow
+Write-Host "its path has to be added to the user PATH variable. This installer" -ForegroundColor Yellow
+Write-Host "will place the script file in '$dir' and then add it to the PATH." -ForegroundColor Yellow
+Write-Host "NOTE: a backup of the current PATH will be saved in '$usr_path_var_bkp'."
+Write-Host ""
 
 # Utiliy for checking version
 if ($version){
