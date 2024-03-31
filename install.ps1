@@ -43,7 +43,14 @@ function Log {
     success { Write-Host $_string -ForegroundColor Green > $log }
     warning { Write-Warning $_string > $log }
     error { Write-Error $_string > $log }
-    Default { Write-Host _string -ForegroundColor $_format > $log  }
+    Default { 
+      if ($_format -is [System.ConsoleColor]) {
+        Write-Host _string -ForegroundColor $_format > $log  
+      }
+      else {
+        Write-Host _string > $log 
+      }
+    }
   }
 }
 
