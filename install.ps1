@@ -8,6 +8,7 @@ $log = $dir + "log.txt"
 $bren = $dir + "bren.ps1"
 $bren_cmd = $dir + "bren.cmd"
 $bren_src = ".\bren.ps1"
+$installer = ".\install.ps1"
 $usr_path_var_bkp = $dir + ".\user-PATH-var_backup.txt"
 
 # Presentation
