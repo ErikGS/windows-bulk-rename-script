@@ -67,7 +67,7 @@ if ((GetUserPathVar).Contains($bren_cmd)) {
 
   Write-Warning "Do you want to UNINSTALL bren?"
 
-  if (Read-Host "Choice (Y/YES or N/NO)" -eq 'Y' -or $confirm -eq "YES") {
+  if ((Read-Host "Choice (Y/YES or N/NO)") -eq 'Y' -or $confirm -eq "YES") {
 
     Log("Begin uninstalling...", "info")
 
@@ -89,7 +89,7 @@ if ((GetUserPathVar).Contains($bren_cmd)) {
 # Install dialog
 Write-Warning "May the installer procceed?"
 
-if (Read-Host "Choice (Y/YES or N/NO)" -eq 'Y' -or $confirm -eq "YES") {
+if ((Read-Host "Choice (Y/YES or N/NO)") -eq 'Y' -or $confirm -eq "YES") {
 
   Log("Begin installation...", "warning")
 
