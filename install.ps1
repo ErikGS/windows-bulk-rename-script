@@ -120,7 +120,7 @@ if ((Read-Host "Choice (Y/YES or N/NO)") -eq 'Y' -or $confirm -eq "YES") {
 
   "powershell.exe -NoProfile -File $bren" > $bren_cmd
 
-  [Environment]::SetEnvironmentVariable('path', (GetUserPathVar + ";" + $bren_cmd), 'User');
+  [Environment]::SetEnvironmentVariable('path', ((GetUserPathVar) + $bren_cmd), 'User');
 
   Log "Bren was added to the user PATH variable." -s
 
