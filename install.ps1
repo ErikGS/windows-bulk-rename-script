@@ -32,26 +32,26 @@ if ($version){
 }
 
 # Utility for logging a string in the console and into a file
-# _format: info, succes, warning, error
+# _format: i, s, w, e
 # _format can also be a color (Black, White, Red, Blue, etc.) 
 function Log {
   param(
     [string]$_string,
-    [switch]$_format
+    [switch]$i,
+    [switch]$s,
+    [switch]$w,
+    [switch]$e
   )
-  switch ($_format) {
-    info { Write-Host $_string -ForegroundColor Cyan > $log }
-    success { Write-Host $_string -ForegroundColor Green > $log }
-    warning { Write-Warning $_string > $log }
-    error { Write-Error $_string > $log }
-    Default { 
-      if ($_format -is [System.ConsoleColor]) {
-        Write-Host $_string -ForegroundColor $_format > $log  
-      }
-      else {
-        Write-Host $_string > $log 
-      }
-    }
+
+  if ($i) { Write-Host $_string -ForegroundColor Cyan > $log } return
+  if ($s) { Write-Host $_string -ForegroundColor Green > $log } return
+  if ($w) { Write-Warning $_string > $log } return
+  if ($e) { Write-Error $_string > $log } return
+  if ($_format -is [System.ConsoleColor]) {
+    Write-Host $_string -ForegroundColor $_format > $LogCommandLifecycleEvent
+  }
+  else {
+    Write-Host $_string > $log 
   }
 }
 
@@ -70,19 +70,20 @@ if ((GetUserPathVar).Contains($bren_cmd)) {
 
   if ((Read-Host "Choice (Y/YES or N/NO)") -eq 'Y' -or $confirm -eq "YES") {
 
-    Log "Begin uninstalling..." -info
+    Log " "
+    Log "Begin uninstalling..." -i
 
     # Removes bren from the user PATH variable
     [Environment]::SetEnvironmentVariable("path", (GetUserPathVar.Remove(';' + $bren_cmd)), "User");
     
     Remove-Item $bren
 
-    Log "Bren was uninstalled." -success
+    Log "Bren was uninstalled." -s
 
     Break
   }
 
-  Log "Operation Aborted." -error
+  Log "Operation Aborted." -e
   Break
 }
 
@@ -92,50 +93,50 @@ Write-Warning "May the installer procceed?"
 
 if ((Read-Host "Choice (Y/YES or N/NO)") -eq 'Y' -or $confirm -eq "YES") {
 
-  Log "Begin installation..." -warning
+  Log "Begin installation..." -w
 
   # Makes the directory and place a copy of bren
   mkdir $dir -Force > $null
 
-  Log "Copying '$bren_src' to '$bren'..." -info
+  Log "Copying '$bren_src' to '$bren'..." -i
 
   Copy-Item -Path $bren_src -Destination $bren
 
-  Log "'$bren_src' was copied to '$bren'." -success
+  Log "'$bren_src' was copied to '$bren'." -s
 
 
   # Saves a backup of the PATH variable before adding bren.
-  Log "Saving a backup of current user PATH variable here and in '$usr_path_var_bkp'..." -info
+  Log "Saving a backup of current user PATH variable here and in '$usr_path_var_bkp'..." -i
 
   GetUserPathVar | Out-File -FilePath $usr_path_var_bkp 
 
   Copy-Item -Path $usr_path_var_bkp -Destination ".\"
 
-  Log "A backup of current user PATH variable was saved here and in '$usr_path_var_bkp'." -success
+  Log "A backup of current user PATH variable was saved here and in '$usr_path_var_bkp'." -s
 
 
   # Adds bren to the user PATH variable
-  Log "Adding bren to user PATH variable..." -info
+  Log "Adding bren to user PATH variable..." -i
 
   "powershell.exe -NoProfile -File $bren" > $bren_cmd
 
   [Environment]::SetEnvironmentVariable('path', (GetUserPathVar + ';' + $bren_cmd), 'User');
 
-  Log "Bren was added to the user PATH variable." -success
+  Log "Bren was added to the user PATH variable." -s
 
 
   # Makes a copy the installer too, so there's a backup if needed, likely to uninstall
-  Log(" ")
-  Log("Finishing...", "info")
-  Log(" ")
+  Log " "
+  Log "Finishing..." -i
+  Log " "
 
   Copy-Item -Path $installer -Destination $dir
   Copy-Item -Path $log -Destination ".\"
 
-  Log("Installation Done.", "success")
-  Log(" ")
+  Log "Installation Done." -s
+  Log " "
   Break
 }
 
-Log("Operation Aborted.", "error")
+Log "Operation Aborted." -e
 Break
