@@ -58,7 +58,7 @@ function Log {
   } elseif ($e) { 
     Write-Output $string | Out-File -FilePath $log -Append
     Write-Error $string
-  } elseif ([enum]::GetValues([System.ConsoleColor]) -contains $color) {
+  } elseif ($color -ne "" -and [enum]::GetValues([System.ConsoleColor]) -contains $color) {
     Write-Output $string | Out-File -FilePath $log -Append
     Write-Host $string -ForegroundColor $color
   } else {
@@ -83,7 +83,7 @@ if ((GetUserPathVar).Contains($bren_cmd)) {
   if ((Read-Host "Choice (Y/YES or N/NO)") -eq 'Y' -or $confirm -eq "YES") {
 
     Write-Host " "
-    Log "Begin uninstalling..." -i
+    Log "--- Begin uninstalling... ---" -i
 
     # Removes bren from the user PATH variable
     [Environment]::SetEnvironmentVariable("path", (GetUserPathVar).Replace(";$bren_cmd", ""), "User");
@@ -92,7 +92,7 @@ if ((GetUserPathVar).Contains($bren_cmd)) {
     Remove-Item $bren_cmd
     Remove-Item ($dir + $installer)
 
-    Log "Bren was uninstalled." -s
+    Log "--- Bren was uninstalled. ---" -s
     Write-Host " "
     Break
   }
@@ -110,7 +110,7 @@ Write-Warning "May the installer procceed?"
 if ((Read-Host "Choice (Y/YES or N/NO)") -eq 'Y' -or $confirm -eq "YES") {
 
   Write-Host " "
-  Log "Begin installation..." -w
+  Log "--- Begin installation... ---" -w
 
   # Makes the directory and place a copy of bren
   mkdir $dir -Force > $null
@@ -119,7 +119,7 @@ if ((Read-Host "Choice (Y/YES or N/NO)") -eq 'Y' -or $confirm -eq "YES") {
 
   Copy-Item -Path $bren_src -Destination $bren
 
-  Log "Done." -s
+  Log "Done (1/3)." -s
 
 
   # Saves a backup of the PATH variable before adding bren.
@@ -129,7 +129,7 @@ if ((Read-Host "Choice (Y/YES or N/NO)") -eq 'Y' -or $confirm -eq "YES") {
 
   Copy-Item -Path $usr_path_var_bkp -Destination ".\"
 
-  Log "Done." -s
+  Log "Done (2/3)." -s
 
 
   # Adds bren to the user PATH variable
@@ -143,12 +143,12 @@ if ((Read-Host "Choice (Y/YES or N/NO)") -eq 'Y' -or $confirm -eq "YES") {
     [Environment]::SetEnvironmentVariable('path', ((GetUserPathVar) + (";$bren_cmd")), 'User');
   }
 
-  Log "Done." -s
+  Log "Done (3/3)." -s
 
 
   # Makes a copy the installer too, so there's a backup if needed, likely to uninstall
   Log " "
-  Log "Installation Done." -s
+  Log "--- Installation Done. ---" -s
   Write-Host " "
 
   Copy-Item -Path $installer -Destination $dir
