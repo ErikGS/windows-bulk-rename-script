@@ -73,7 +73,7 @@ function GetUserPathVar {
 }
 
 # Checks if bren is already in path to present an uninstall dialog according
-if ((GetUserPathVar).Contains($bren_cmd)) {
+if ((GetUserPathVar).Contains($dir)) {
 
   # Uninstall dialog
   Write-Host "Bren is INSTALLED in $dir" -ForegroundColor Green
@@ -86,7 +86,7 @@ if ((GetUserPathVar).Contains($bren_cmd)) {
     Log "--- Begin uninstalling... ---" -i
 
     # Removes bren from the user PATH variable
-    [Environment]::SetEnvironmentVariable("path", (GetUserPathVar).Replace(";$bren_cmd", ""), "User");
+    [Environment]::SetEnvironmentVariable("path", (GetUserPathVar).Replace(";$dir", ""), "User");
     
     Remove-Item $bren
     Remove-Item $bren_cmd
@@ -138,9 +138,9 @@ if ((Read-Host "Choice (Y/YES or N/NO)") -eq 'Y' -or $confirm -eq "YES") {
   "powershell.exe -NoProfile -File $bren" > $bren_cmd
 
   if ((GetUserPathVar).EndsWith(';')) {
-    [Environment]::SetEnvironmentVariable('path', ((GetUserPathVar) + ("$bren_cmd")), 'User');
+    [Environment]::SetEnvironmentVariable('path', ((GetUserPathVar) + ("$dir")), 'User');
   } else {
-    [Environment]::SetEnvironmentVariable('path', ((GetUserPathVar) + (";$bren_cmd")), 'User');
+    [Environment]::SetEnvironmentVariable('path', ((GetUserPathVar) + (";$dir")), 'User');
   }
 
   Log "Done (3/3)." -s
