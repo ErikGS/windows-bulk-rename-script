@@ -19,11 +19,11 @@ So, by running the above command the 3 unsorted '.jpg' files inside 'demo' shoul
 
 The '.mp4' and '.pdf' files should still keep their original name, as by using 'jpg' as the qualifier any other extension is going to be ignored.
 
-⚠️ **Note that the ordering of the renaming will be alphabetical.**
+⚠️ **Note that the ordering of the renaming will be alphabetical in relation to the original names.**
 
 # Installing
 - To install, just run 'install.ps1'. It will present you with relevant information and ask for the required steps.
-  - The installer places the script in 'C:/bren/' and adds this directory to the USER path variable, so the script can be accessed as a command from a shell.
+  - The installer places the script in 'C:/bren/' and adds this directory to the user PATH variable, so the script can be accessed as a command from a shell.
   - It will also save a backup copy of the PATH variable from before adding bren, as well as a log of the operation.
 
 # Uninstalling
