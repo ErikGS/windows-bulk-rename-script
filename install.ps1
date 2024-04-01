@@ -58,7 +58,7 @@ function Log {
   } elseif ($e) { 
     Write-Output $string | Out-File -FilePath $log -Append
     Write-Error $string
-  } elseif ($color -is [System.ConsoleColor]) {
+  } elseif ([enum]::GetValues([System.ConsoleColor]) -contains $color) {
     Write-Output $string | Out-File -FilePath $log -Append
     Write-Host $string -ForegroundColor $color
   } else {
@@ -119,7 +119,7 @@ if ((Read-Host "Choice (Y/YES or N/NO)") -eq 'Y' -or $confirm -eq "YES") {
 
   Copy-Item -Path $bren_src -Destination $bren
 
-  Log "'$bren_src' was copied to '$bren'." -s
+  Log "Done." -s
 
 
   # Saves a backup of the PATH variable before adding bren.
@@ -129,7 +129,7 @@ if ((Read-Host "Choice (Y/YES or N/NO)") -eq 'Y' -or $confirm -eq "YES") {
 
   Copy-Item -Path $usr_path_var_bkp -Destination ".\"
 
-  Log "A backup of current user PATH variable was saved here and in '$usr_path_var_bkp'." -s
+  Log "Done." -s
 
 
   # Adds bren to the user PATH variable
@@ -143,7 +143,7 @@ if ((Read-Host "Choice (Y/YES or N/NO)") -eq 'Y' -or $confirm -eq "YES") {
     [Environment]::SetEnvironmentVariable('path', ((GetUserPathVar) + (";$bren_cmd")), 'User');
   }
 
-  Log "Bren was added to the user PATH variable." -s
+  Log "Done." -s
 
 
   # Makes a copy the installer too, so there's a backup if needed, likely to uninstall
