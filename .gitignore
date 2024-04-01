@@ -1,2 +1,5 @@
 .git/
-*.txt
+*.*
+!bren.ps1
+!install.ps1
+!demo/*
