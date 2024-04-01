@@ -1,9 +1,9 @@
 # Demo
 
-Clone this repo, open a shell inside "demo" and run:
-'''bash
+Clone this repo, open a shell inside 'demo' and run:
+```bash
 ..\bren.ps1 jpg 2
-'''
+```
 
 - In this example, 'jpg' is the qualifier for the files to be renamed.
 - '2' is the number of zeros that should be in the name.
