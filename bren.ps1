@@ -21,7 +21,7 @@ $i = 0
 
 function BulkRename {
   Write-Host "Renaming..." -ForegroundColor Cyan
-  Get-ChildItem "*.$target" | foreach-object { Rename-Item $_ "$($i.ToString('D'+$zeros)).$target"; $i++ }
+  Get-ChildItem "*.$target" | sort-object name | foreach-object { Rename-Item $_ "$($i.ToString('D'+$zeros)).$target"; $i++ }
   Write-Host "Done."  -ForegroundColor Green
   Write-Host ""
 }
